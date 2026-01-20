@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HALT! WHO GOES THERE?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #2D1B4E 0%, #4A1A6B 50%, #6B2D7B 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'VT323', monospace;
+            padding: 20px;
+        }
+
+        .portal-container {
+            background: linear-gradient(180deg, #3D2066 0%, #2A1548 100%);
+            border: 4px solid #00FF00;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 
+                0 0 20px rgba(0, 255, 0, 0.3),
+                0 0 40px rgba(0, 255, 0, 0.1),
+                inset 0 0 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .wizard {
+            width: 110px;
+            height: auto;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 0, 0.5));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .cat {
+            width: 120px;
+            height: auto;
+            filter: drop-shadow(0 0 10px rgba(255, 165, 0, 0.5));
+        }
+
+        .cat-left {
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .cat-right {
+            animation: bounce 2s ease-in-out infinite 0.5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .title-section {
+            text-align: center;
+            flex: 1;
+            padding: 0 15px;
+        }
+
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            color: #00FF00;
+            font-size: clamp(0.9rem, 3.5vw, 1.5rem);
+            text-shadow: 
+                3px 3px 0px #006600,
+                0 0 10px #00FF00;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .welcome-text {
+            color: #FFFFFF;
+            font-size: clamp(1.3rem, 3vw, 1.6rem);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .welcome-text strong {
+            color: #FFD700;
+        }
+
+        .password-label {
+            color: #FFD700;
+            font-size: clamp(1.2rem, 2.5vw, 1.4rem);
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .password-section {
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .password-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px 20px;
+            font-family: 'VT323', monospace;
+            font-size: 1.5rem;
+            background: #1a0a2e;
+            border: 3px solid #00FF00;
+            border-radius: 10px;
+            color: #00FF00;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .password-input:focus {
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            border-color: #00FF88;
+        }
+
+        .password-input::placeholder {
+            color: #006600;
+        }
+
+        .hint {
+            color: #888;
+            font-size: 1.15rem;
+            margin-top: 12px;
+        }
+
+        .hint strong {
+            color: #00FF00;
+        }
+
+        .terms-section {
+            margin: 25px auto;
+            text-align: left;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            max-width: 650px;
+        }
+
+        .terms-section::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .terms-section::-webkit-scrollbar-track {
+            background: #1a0a2e;
+            border-radius: 5px;
+        }
+
+        .terms-section::-webkit-scrollbar-thumb {
+            background: #00FF00;
+            border-radius: 5px;
+        }
+
+        .terms-title {
+            color: #FFD700;
+            margin-bottom: 15px;
+            text-align: center;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.75rem;
+            line-height: 1.6;
+        }
+
+        .terms-text {
+            color: #CCC;
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+
+        .terms-text ul {
+            margin-left: 20px;
+            margin-top: 15px;
+            list-style: none;
+        }
+
+        .terms-text li {
+            margin-bottom: 12px;
+            padding-left: 10px;
+        }
+
+        .terms-text li::before {
+            content: "⚠️ ";
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 25px 0;
+            cursor: pointer;
+            flex-wrap: wrap;
+            padding: 0 10px;
+        }
+
+        .checkbox-container input {
+            width: 24px;
+            height: 24px;
+            accent-color: #00FF00;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .checkbox-container label {
+            color: #FFFFFF;
+            font-size: 1.2rem;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .button-section {
+            text-align: center;
+        }
+
+        .submit-btn {
+            background: linear-gradient(180deg, #228B22 0%, #006400 100%);
+            color: #FFFFFF;
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(0.65rem, 2vw, 0.85rem);
+            padding: 20px 40px;
+            border: 3px solid #00FF00;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 2px 2px 0px #003300;
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3);
+            line-height: 1.4;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 255, 0, 0.5);
+            background: linear-gradient(180deg, #2EA62E 0%, #228B22 100%);
+        }
+
+        .submit-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            color: #FF6B6B;
+            font-size: 1.3rem;
+            margin-top: 15px;
+            display: none;
+            text-align: center;
+        }
+
+        .success-message {
+            color: #00FF00;
+            font-size: 1.4rem;
+            margin-top: 15px;
+            display: none;
+            text-align: center;
+            animation: pulse 1s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @media (max-width: 650px) {
+            .header-section {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .desktop-cat {
+                display: none;
+            }
+
+            .portal-container {
+                padding: 20px 15px;
+            }
+
+            .title-section {
+                padding: 0;
+                order: 1;
+            }
+
+            .terms-section {
+                max-height: 170px;
+            }
+
+            .mobile-cats {
+                display: flex !important;
+            }
+        }
+
+        .mobile-cats {
+            display: none;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 20px;
+        }
+
+        .mobile-cats .cat {
+            width: 100px;
+        }
+
+        .desktop-cat {
+            display: block;
+        }
+
+        @media (max-width: 650px) {
+            .desktop-cat {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="portal-container">
+        <div class="header-section">
+            <!-- Orange Cat - Left -->
+            <img src="https://i.imgur.com/iHWzHzb.png" alt="Orange Cat" class="cat cat-left desktop-cat">
+            
+            <div class="title-section">
+                <!-- Wizard -->
+                <img src="https://i.imgur.com/LsU8nls.png" alt="Wizard" class="wizard">
+                <h1>HALT! WHO GOES THERE?</h1>
+            </div>
+            
+            <!-- Grey Cat - Right -->
+            <img src="https://i.imgur.com/56Ux2gu.png" alt="Grey Cat" class="cat cat-right desktop-cat">
+        </div>
+
+        <!-- Mobile cats (shown only on small screens) -->
+        <div class="mobile-cats">
+            <img src="https://i.imgur.com/iHWzHzb.png" alt="Orange Cat" class="cat">
+            <img src="https://i.imgur.com/56Ux2gu.png" alt="Grey Cat" class="cat">
+        </div>
+
+        <p class="welcome-text">
+            You have reached the gates of <strong>Jax's Network</strong>
+        </p>
+
+        <p class="password-label">
+            🔑 Enter the network password:
+        </p>
+
+        <div class="password-section">
+            <input 
+                type="text" 
+                class="password-input" 
+                id="password" 
+                placeholder="Enter the password here..."
+                autocomplete="off"
+                spellcheck="false"
+            >
+            <p class="hint">Hint: It's the name of the cat that's most annoying 😼</p>
+        </div>
+
+        <div class="terms-section">
+            <h3 class="terms-title">📜 BY ENTERING THIS NETWORK, YOU SOLEMNLY SWEAR: 📜</h3>
+            <div class="terms-text">
+                <ul>
+                    <li>You will NOT complain about allergies because of the cats. You already know there are cats here, so bring your Claritin.</li>
+                    <li>If I cook and you eat my food... you know the rest. Those dishes ain't washing themselves.</li>
+                    <li>No porn. 🚫</li>
+                    <li>WiFi is a privilege, not a right.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="checkbox-container">
+            <input type="checkbox" id="acceptTerms">
+            <label for="acceptTerms">I accept these terms 🤝</label>
+        </div>
+
+        <div class="button-section">
+            <button class="submit-btn" id="submitBtn" disabled>ENTER THE REALM</button>
+        </div>
+
+        <p class="error-message" id="errorMsg">⚠️ That's not right! Try again.</p>
+        <p class="success-message" id="successMsg">✨ Welcome, traveler! Opening the gates...</p>
+    </div>
+
+    <script>
+        // ============================================
+        // CONFIGURATION - CHANGE THESE VALUES
+        // ============================================
+        const CORRECT_PASSWORD = 'MrSnugglesWorth';  // Change this to your cat's name!
+        const UNIFI_CONTROLLER_IP = '192.168.1.1';   // Change to your UDM-SE IP address
+        const SITE_NAME = 'default';                  // Usually 'default' unless you renamed it
+        // ============================================
+
+        const passwordInput = document.getElementById('password');
+        const acceptTerms = document.getElementById('acceptTerms');
+        const submitBtn = document.getElementById('submitBtn');
+        const errorMsg = document.getElementById('errorMsg');
+        const successMsg = document.getElementById('successMsg');
+
+        // Enable/disable submit button based on checkbox
+        acceptTerms.addEventListener('change', function() {
+            submitBtn.disabled = !this.checked;
+        });
+
+        // Handle form submission
+        submitBtn.addEventListener('click', function() {
+            const enteredPassword = passwordInput.value.trim();
+            
+            // Hide previous messages
+            errorMsg.style.display = 'none';
+            successMsg.style.display = 'none';
+
+            // Case-insensitive password check
+            if (enteredPassword.toLowerCase() === CORRECT_PASSWORD.toLowerCase()) {
+                // Success!
+                successMsg.style.display = 'block';
+                submitBtn.disabled = true;
+                submitBtn.textContent = '✓ ACCESS GRANTED!';
+                submitBtn.style.background = 'linear-gradient(180deg, #00AA00 0%, #008800 100%)';
+                
+                // Redirect after short delay
+                setTimeout(function() {
+                    authorizeGuest();
+                }, 1500);
+            } else {
+                // Wrong password
+                errorMsg.style.display = 'block';
+                passwordInput.style.borderColor = '#FF6B6B';
+                passwordInput.classList.add('shake');
+                
+                setTimeout(() => {
+                    passwordInput.style.borderColor = '#00FF00';
+                    passwordInput.classList.remove('shake');
+                }, 1000);
+            }
+        });
+
+        // Function to authorize guest with UniFi
+        function authorizeGuest() {
+            // Get URL parameters that UniFi passes to the external portal
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            const ap = urlParams.get('ap');
+            const clientMac = urlParams.get('id');
+            const redirectUrl = urlParams.get('url') || 'https://www.google.com';
+            
+            if (ap && clientMac) {
+                // Construct UniFi authorization URL
+                const authUrl = `https://${UNIFI_CONTROLLER_IP}:8443/guest/s/${SITE_NAME}/` +
+                               `?cmd=authorize-guest&id=${clientMac}&ap=${ap}`;
+                
+                window.location.href = authUrl;
+            } else {
+                // Fallback if parameters aren't present (testing mode)
+                console.log('UniFi parameters not found - redirecting to fallback');
+                window.location.href = redirectUrl;
+            }
+        }
+
+        // Allow Enter key to submit
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !submitBtn.disabled) {
+                submitBtn.click();
+            }
+        });
+
+        // Add shake animation via CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                20% { transform: translateX(-10px); }
+                40% { transform: translateX(10px); }
+                60% { transform: translateX(-10px); }
+                80% { transform: translateX(10px); }
+            }
+            .shake {
+                animation: shake 0.5s ease;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Focus password input on load
+        window.addEventListener('load', function() {
+            passwordInput.focus();
+        });
+    </script>
+</body>
+</html>
